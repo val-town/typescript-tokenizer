@@ -1,0 +1,23 @@
+{
+  "name": "@valtown/typescript-tokenizer",
+  "version": "1.0.0",
+  "description": "Extract relevant information from TypeScript source files",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.test.mjs"
+  },
+  "keywords": [
+    "search",
+    "typescript"
+  ],
+  "author": "Val Town",
+  "license": "ISC",
+  "dependencies": {
+    "natural": "^6.10.4",
+    "tree-sitter": "^0.20.6",
+    "tree-sitter-typescript": "^0.20.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
