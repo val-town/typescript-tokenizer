@@ -66,10 +66,9 @@ export function tokenize(ts) {
         // https://github.com/NaturalNode/natural/issues/443
         let i = 0;
         for (const word of words) {
-          let stemmed = natural.PorterStemmer.stem(word);
-          if (stopwords.has(stemmed)) continue;
-          if (stemmed.length > MAX_WORD_LENGTH) continue;
-          tokens.push([stemmed, c.node.startIndex + i]);
+          if (stopwords.has(word)) continue;
+          if (word.length > MAX_WORD_LENGTH) continue;
+          tokens.push([word, c.node.startIndex + i]);
           i++;
         }
       } else {
