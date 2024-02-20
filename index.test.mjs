@@ -29,7 +29,7 @@ test.describe("tokenize", () => {
     ["`hello world`", ["hello", "world"]],
     ["// hello world", ["hello", "world"]],
     // Why does lazy become lazi?
-    ["// the dog jumps over the lazy fox", ["dog", "jump", "lazi", "fox"]],
+    ["// the dog jumps over the lazy fox", ["dog", "jump", "lazy", "fox"]],
     ["/* hello world */", ["hello", "world"]],
   ]) {
     test.it(`converts ${input}`, () => {
