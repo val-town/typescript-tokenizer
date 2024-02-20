@@ -3,6 +3,10 @@ import natural from "natural";
 import TreeSitterTypeScript from "tree-sitter-typescript";
 import { stopwords } from "./stopwords.mjs";
 
+// supercalifragilisticexpialidocious is 34 characters
+// long and is very long. we probably don't need
+// 32-char words anyway. But regardless, this might help.
+const MAX_WORD_LENGTH = 32;
 const englishTokenizer = new natural.AggressiveTokenizer();
 
 const parser = new Parser();
@@ -44,11 +48,7 @@ export function tokenize(ts) {
     for (let c of m.captures) {
       if (pat.english) {
         const text = tree.getText(c.node);
-        const words = englishTokenizer
-          .tokenize(text.replaceAll(/[\/\\]/g, ""))
-          .map((word) => {
-            return natural.PorterStemmer.stem(word);
-          });
+        const words = englishTokenizer.tokenize(text.replaceAll(/[\/\\]/g, ""));
 
         // Natural doesn't expose indices, so just
         // put these right next to each other to make Postgres
@@ -56,13 +56,16 @@ export function tokenize(ts) {
         // https://github.com/NaturalNode/natural/issues/443
         let i = 0;
         for (const word of words) {
-          if (!stopwords.has(word)) {
-            tokens.push([word, c.node.startIndex + i]);
-            i++;
-          }
+          let stemmed = natural.PorterStemmer.stem(word);
+          if (stopwords.has(stemmed)) continue;
+          if (stemmed.length > MAX_WORD_LENGTH) continue;
+          tokens.push([stemmed, c.node.startIndex + i]);
+          i++;
         }
       } else {
-        tokens.push([tree.getText(c.node), c.node.startIndex]);
+        const text = tree.getText(c.node);
+        if (text.length > MAX_WORD_LENGTH) continue;
+        tokens.push([text, c.node.startIndex]);
       }
     }
   }
