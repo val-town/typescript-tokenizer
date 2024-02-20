@@ -1,6 +1,6 @@
 {
   "name": "@valtown/typescript-tokenizer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Extract relevant information from TypeScript source files",
   "main": "index.mjs",
   "scripts": {
