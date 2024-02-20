@@ -15,6 +15,8 @@ test.describe("tokenize", () => {
     ["new x()", ["x"]],
     ["x()", ["x"]],
     ["'x'", ["x"]],
+    ["'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'", []],
+    ["'https://google.com/'", ["https://google.com/"]],
     ["const { x } = 10;", ["x"]],
     ["import { x } from 'npm:foo'", ["x", "npm", "foo"]],
     ["import x from 'npm:foo'", ["x", "npm", "foo"]],

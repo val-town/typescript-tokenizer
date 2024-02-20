@@ -47,7 +47,17 @@ export function tokenize(ts) {
     const pat = patterns[m.pattern];
     for (let c of m.captures) {
       if (pat.english) {
+        /**
+         * @type string
+         */
         const text = tree.getText(c.node);
+
+        // index urls directly?
+        if (text.startsWith("http")) {
+          tokens.push([text, c.node.startIndex]);
+          continue;
+        }
+
         const words = englishTokenizer.tokenize(text.replaceAll(/[\/\\]/g, ""));
 
         // Natural doesn't expose indices, so just
